@@ -155,3 +155,4 @@ cython_debug/
 ### CUSTOMIZE ###
 #################
 
+process_fig/
