@@ -2,6 +2,8 @@
 This module defines cards for Princess Game.
 Including separate Card and Deck.
 """
+from random import shuffle
+from common import CARD_SUIT
 
 
 class Card:
@@ -11,6 +13,7 @@ class Card:
     2. name
     3. effect
     """
+
     def __init__(self, card_id: int):
         self.id = card_id
 
@@ -70,3 +73,34 @@ class Card:
     @staticmethod
     def princess_eff():
         print("I'm a princess")
+
+
+class Deck:
+    """
+    Deck for a set
+    """
+
+    def __init__(self, suite_n=1):
+        """
+        Generate a deck
+
+        :param suite_n: number of suits included in the deck
+        """
+        self.cards = list()
+
+        cards_index = list()
+        for i in range(0, suite_n):
+            cards_index.extend(CARD_SUIT)
+        shuffle(cards_index)
+
+        for i in cards_index:
+            self.cards.append(Card(i))
+
+    def dump(self):
+        print("Current deck (top to bottom):")
+        for card in reversed(self.cards):
+            print(card.id, ' ', end='')
+        print()
+
+    def pop(self) -> Card:
+        return self.cards.pop()
