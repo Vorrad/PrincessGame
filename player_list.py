@@ -26,40 +26,42 @@ class Player:
         self.name = name
 
 
-class PlayerList:
-    """
-    properties:
-        1. name list
-        2. player list
-        3. player counts
-    """
-    def __init__(self):
-        self.names = []
-        self.players = {}
-        self.p_count = len(self.names)
-
-    def append(self, player: Player):
-        try:
-            if player.name in self.names:
-                raise GameError("This name has been used, please change your name")
-            self.names.append(player.name)
-            self.players[player.name] = player
-            self.p_count += 1
-        except GameError as e:
-            print(e.arg)
-
-    def delete(self, player_name: str):
-        try:
-            if player_name not in self.names:
-                raise GameError("This name does not exist")
-            self.names.remove(player_name)
-            self.players.pop(player_name)
-            self.p_count -= 1
-        except GameError as e:
-            print(e.arg)
-
-    def count(self):
-        return len(self.players)
-
+# class PlayerList:
+#     """
+#     properties:
+#         1. name list
+#         2. player list
+#         3. player counts
+#     """
+#     def __init__(self):
+#         self.names = []
+#         self.players = {}
+#         self.p_count = len(self.names)
+#
+#     def append(self, player: Player):
+#         try:
+#             if player.name in self.names:
+#                 raise GameError("This name has been used, please change your name")
+#             self.names.append(player.name)
+#             self.players[player.name] = player
+#             self.p_count += 1
+#         except GameError as e:
+#             print(e.arg)
+#
+#     def delete(self, player_name: str):
+#         try:
+#             if player_name not in self.names:
+#                 raise GameError("This name does not exist")
+#             self.names.remove(player_name)
+#             self.players.pop(player_name)
+#             self.p_count -= 1
+#         except GameError as e:
+#             print(e.arg)
+#
+#     def count(self) -> int:
+#         return len(self.players)
+#
+#     def get_i(self, i) -> Player:
+#         return self.players[i]
 
 

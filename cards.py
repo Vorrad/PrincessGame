@@ -24,7 +24,7 @@ class Card:
         elif self.id == 1:
             self.name = "Guard"
             self.effect = self.guard_eff
-        elif id == 2:
+        elif self.id == 2:
             self.name = "Priest"
             self.effect = self.priest_eff
         elif self.id == 3:
@@ -111,3 +111,6 @@ class Deck:
 
     def pop(self) -> Card:
         return self.cards.pop()
+
+    def count(self):
+        return len(self.cards)
