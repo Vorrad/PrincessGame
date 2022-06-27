@@ -4,6 +4,7 @@ Including separate Card and Deck.
 """
 from random import shuffle
 from common import CARD_SUIT
+from common import GameError
 
 
 class Card:
@@ -14,34 +15,40 @@ class Card:
     3. effect
     """
 
-    def __init__(self, card_id: int):
+    def __init__(self, card_id=0):
         self.id = card_id
 
-        if self.id == 1:
+        if self.id == 0:
+            self.name = "Empty"
+            self.effect = None
+        elif self.id == 1:
             self.name = "Guard"
             self.effect = self.guard_eff
-        if id == 2:
+        elif id == 2:
             self.name = "Priest"
             self.effect = self.priest_eff
-        if self.id == 3:
+        elif self.id == 3:
             self.name = "Baron"
             self.effect = self.baron_eff
-        if self.id == 4:
+        elif self.id == 4:
             self.name = "Handmaid"
             self.effect = self.handmaid_eff
-        if self.id == 5:
+        elif self.id == 5:
             self.name = "Prince"
             self.effect = self.prince_eff
-        if self.id == 6:
+        elif self.id == 6:
             self.name = "King"
             self.effect = self.king_eff
-        if self.id == 7:
+        elif self.id == 7:
             self.name = "Countess"
             self.effect = self.countess_eff
-        if self.id == 8:
+        elif self.id == 8:
             self.name = "Princess"
             self.effect = self.princess_eff
+        else:
+            raise GameError("No such card id: " + str(card_id))
 
+    # TODO: Replace effects with real functions
     @staticmethod
     def guard_eff():
         print("I'm a guard:")
