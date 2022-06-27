@@ -1,5 +1,5 @@
 """
-This directory defines class 'Game'
+This module defines class 'Game'
 which represents a hole multiplayer game.
 
 It contains following properties
@@ -9,14 +9,14 @@ It contains following properties
     4. sequence of players
 """
 
-_rounds_to_win = 4
+_sets_to_win = 4
 _player_list = []
 _player_seq = {}
 
 
 class Game:
     def __init__(self,
-                 rounds_to_win=_rounds_to_win,
+                 sets_to_win=_sets_to_win,
                  player_list=None,
                  player_seq=None):
 
@@ -25,19 +25,19 @@ class Game:
         if player_list is None:
             player_list = _player_list
 
-        self.rounds_to_win = rounds_to_win
+        self.sets_to_win = sets_to_win
         self.player_list = player_list
         self.player_num = len(player_list)
         self.player_seq = player_seq
 
     def set_rtw(self, round_to_win):
         """
-        Reset rounds to win for one game
+        Reset sets to win for one game
 
         :param round_to_win: A signed number
         """
 
-        self.rounds_to_win = round_to_win
+        self.sets_to_win = round_to_win
 
     def set_pl(self, player_list):
         """
