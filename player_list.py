@@ -31,10 +31,12 @@ class PlayerList:
     properties:
         1. name list
         2. player list
+        3. player counts
     """
     def __init__(self):
         self.names = []
         self.players = {}
+        self.p_count = len(self.names)
 
     def append(self, player: Player):
         try:
@@ -42,6 +44,7 @@ class PlayerList:
                 raise GameError("This name has been used, please change your name")
             self.names.append(player.name)
             self.players[player.name] = player
+            self.p_count += 1
         except GameError as e:
             print(e.arg)
 
@@ -51,6 +54,7 @@ class PlayerList:
                 raise GameError("This name does not exist")
             self.names.remove(player_name)
             self.players.pop(player_name)
+            self.p_count -= 1
         except GameError as e:
             print(e.arg)
 
