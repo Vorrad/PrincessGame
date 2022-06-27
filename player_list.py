@@ -58,5 +58,8 @@ class PlayerList:
         except GameError as e:
             print(e.arg)
 
+    def count(self):
+        return len(self.players)
+
 
 
