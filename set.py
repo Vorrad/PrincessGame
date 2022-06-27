@@ -30,7 +30,10 @@ class PlayerS(Player):
         self.stat = PLAYER_STAT[stat_no]
 
     def draw_card(self, card: Card):
-        self.round_card = card
+        if self.hand_card.id == 0:
+            self.hand_card = card
+        else:
+            self.round_card = card
 
     def play_card(self, card_id: int) -> bool:
         """
@@ -84,6 +87,10 @@ class Set:
         assert type(self.active_player) == PlayerS
         print("The set start at: ", self.active_player.name)
 
+        # Initial everyone's hand card
+        for player in self.players:
+            player.draw_card(self.deck.pop())
+
         # Main loop
         while True:
 
@@ -101,7 +108,7 @@ class Set:
                     assert type(player) == PlayerS
                     if player.hand_card.id > top_card:
                         top_card = player.hand_card.id
-                        top_player = list(player)
+                        top_player = [player]
                     elif player.hand_card.id == top_card:
                         top_player.append(player)
 
@@ -110,6 +117,7 @@ class Set:
                     return None
                 else:
                     print("Game over, winner is ", top_player[0].name)
+                    return top_player[0].name
 
             # Game continue
             else:
@@ -124,6 +132,7 @@ class Set:
                 print(self.active_player.hand_card.id, self.active_player.hand_card.name)
                 print(self.active_player.round_card.id, self.active_player.round_card.name)
                 print("Please choose a card to play: ", end="")
+                # TODO: here is a bug when input is invalid, it will jump over the player
                 try:
                     # loop until player play it correctly
                     while not self.active_player.play_card(int(input())):
