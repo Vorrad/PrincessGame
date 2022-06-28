@@ -70,30 +70,37 @@ class Card:
     @staticmethod
     def priest_eff():
         print("I'm a priest")
+        return [2, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def baron_eff():
         print("I'm a baron")
+        return [3, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def handmaid_eff():
         print("I'm a handmaid")
+        return [4, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def prince_eff():
         print("I'm a prince")
+        return [5, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def king_eff():
         print("I'm a king")
+        return [6, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def countess_eff():
         print("I'm a countess")
+        return [7, BLANK_VAL, BLANK_VAL]
 
     @staticmethod
     def princess_eff():
         print("I'm a princess")
+        return [8, BLANK_VAL, BLANK_VAL]
 
 
 class Deck:

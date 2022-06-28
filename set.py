@@ -13,6 +13,7 @@ from typing import Any
 from cards import Deck, Card
 from player_list import Player
 from common import PLAYER_STAT, BLANK_VAL
+from common import GameError
 
 
 class PlayerS(Player):
@@ -48,19 +49,24 @@ class PlayerS(Player):
 
         if self.round_card.id == card_id:
             op = self.round_card.effect()
-            # TODO: bug: if op is invalid, round card should not be cleared
-            self.round_card = Card(0)
             return op
 
         elif self.hand_card.id == card_id:
             op = self.hand_card.effect()
-            self.hand_card = self.round_card
-            self.round_card = Card(0)
             return op
 
         else:
             print("You don't have this card, please choose a card you have")
             return []
+
+    def drop_card(self, card_id):
+        if self.round_card.id == card_id:
+            self.round_card = Card(0)
+        elif self.hand_card.id == card_id:
+            self.hand_card = self.round_card
+            self.round_card = Card(0)
+        else:
+            raise GameError("in PlayerS.drop_card(): no such card!")
 
 
 class Set:
@@ -97,7 +103,6 @@ class Set:
             self.active_player = last_winner
         assert type(self.active_player) == PlayerS
         print("The set start at:", self.active_player.name)
-
 
         # Main loop
         while True:
@@ -142,6 +147,7 @@ class Set:
                 print("Please choose a card to play: ", end="")
 
                 # loop until player play it correctly
+                target = list()
                 while True:             # Check card id input
                     card_id = input()
                     if not card_id.isdigit():
@@ -152,14 +158,21 @@ class Set:
                         continue
                     if target[1] == BLANK_VAL:
                         break
-                    target_name = target[1]
 
-                    # check if target name exists
-                    if not self.find_player(target_name):
+                    # Cannot choose self as target
+                    if target[1] == self.active_player.name:
+                        print("You cannot choose yourself as target!")
+                        continue
+
+                    # Check if target name exists
+                    if not self.find_player(target[1]):
                         print("Invalid player name")
                         continue
+
                     break
 
+                # Use the card and make it effect
+                self.active_player.drop_card(target[0])
                 self.card_effect(target)
 
                 # switch to next player
