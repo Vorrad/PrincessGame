@@ -91,11 +91,8 @@ class Set:
         self.players = players
 
         # Initial everyone's hand card and show all the players
-        print("Welcome to Princess Game!\nPlayers in the set:", end='')
-        for player in self.players:
-            print(player.name, end=' ')
-            player.draw_card(self.deck.pop())
-        print()
+        print("Welcome to Princess Game!")
+        self.show_players()
 
         if last_winner is None:  # First set in game
             self.active_player = self.players[random.randint(0, len(players) - 1)]
@@ -198,8 +195,9 @@ class Set:
         if card_id == 1:
             index, target = self.find_player(target_name)
             if target.hand_card.id == target_val:
-                print("Oops, bingo!")
+                print("Oops, bingo! " + target_name + " is out now!")
                 self.players.pop(index)
+                self.show_players()
             else:
                 print("Sadly, you got it wrong")
 
@@ -213,4 +211,11 @@ class Set:
             if player.name == player_name:
                 return [index, player]
         return None
+
+    def show_players(self):
+        print("Current players: ", end='')
+        for player in self.players:
+            print(player.name, end=' ')
+            player.draw_card(self.deck.pop())
+        print()
 
