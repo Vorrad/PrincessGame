@@ -21,8 +21,8 @@ class PlayerS(Player):
     Player in a Set
     """
 
-    def __init__(self):
-        super(PlayerS, self).__init__()
+    def __init__(self, name=None):
+        super(PlayerS, self).__init__(name)
         self.hand_card = Card(0)  # The card player always keep
         self.round_card = Card(0)  # The card player only has at his/her round
         self.stat = PLAYER_STAT[0]
@@ -144,11 +144,11 @@ class Set:
                 print("Your current cards are:")
                 print(self.active_player.hand_card.id, self.active_player.hand_card.name)
                 print(self.active_player.round_card.id, self.active_player.round_card.name)
-                print("Please choose a card to play: ", end="")
 
                 # loop until player play it correctly
                 target = list()
                 while True:             # Check card id input
+                    print("Please choose a card to play: ", end="")
                     card_id = input()
                     if not card_id.isdigit():
                         print("Invalid input, please type a number")
