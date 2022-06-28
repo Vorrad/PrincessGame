@@ -3,7 +3,7 @@ This module defines cards for Princess Game.
 Including separate Card and Deck.
 """
 from random import shuffle
-from common import CARD_SUIT
+from common import CARD_SUIT, BLANK_VAL
 from common import GameError
 
 
@@ -48,10 +48,24 @@ class Card:
         else:
             raise GameError("No such card id: " + str(card_id))
 
-    # TODO: Replace effects with real functions
     @staticmethod
-    def guard_eff():
-        print("I'm a guard:")
+    def guard_eff() -> list:
+
+        print("You played a guard.\nPlease enter the player you want to guess:")
+        player = input()
+        print("Please enter the card id you want to guess:")
+        # loop until player play it correctly
+        while True:
+            val = input()
+            if not val.isdigit():
+                print("Invalid input, please type a number: ", end='')
+                continue
+            val = int(val)
+            if val not in range(2, 9):
+                print("Invalid card id, please choose a number from 2 to 8: ", end='')
+                continue
+            break
+        return [player, val]
 
     @staticmethod
     def priest_eff():

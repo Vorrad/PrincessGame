@@ -12,7 +12,7 @@ from typing import Any
 
 from cards import Deck, Card
 from player_list import Player
-from common import PLAYER_STAT
+from common import PLAYER_STAT, BLANK_VAL
 
 
 class PlayerS(Player):
@@ -35,28 +35,31 @@ class PlayerS(Player):
         else:
             self.round_card = card
 
-    def play_card(self, card_id: int) -> bool:
+    def play_card(self, card_id: int) -> list:
         """
-        Return False when operation foul
+        unnecessary object filled with BLANK_VAL
+
+        :param card_id: id of card to play
+        :return: a list with 3 objects: card id + target player + val, empty when operation foul,
         """
         if card_id not in range(1, 9):
             print("Card id invalid, please choose a number from 1 to 8")
-            return False
+            return []
 
         if self.round_card.id == card_id:
-            self.round_card.effect()
+            op = self.round_card.effect()
             self.round_card = Card(0)
-            return True
+            return op
 
         elif self.hand_card.id == card_id:
-            self.hand_card.effect()
+            op = self.hand_card.effect()
             self.hand_card = self.round_card
             self.round_card = Card(0)
-            return True
+            return op
 
         else:
             print("You don't have this card, please choose a card you have")
-            return False
+            return []
 
 
 class Set:
@@ -134,16 +137,29 @@ class Set:
                 print("Please choose a card to play: ", end="")
 
                 # loop until player play it correctly
-                while True:
+                while True:             # Check card id input
                     card_id = input()
                     if not card_id.isdigit():
                         print("Invalid input, please type a number")
                         continue
-                    if not self.active_player.play_card(int(card_id)):
-                        continue
                     break
 
-                # search current player in the player list
+                while True:             # Check target
+                    target = self.active_player.play_card(int(card_id))
+                    if not target:
+                        continue
+                    if target[1] == BLANK_VAL:
+                        break
+                    target_name = target[1]
+
+                    # check if target name exists
+                    if not self.find_player(target_name):
+                        print("Invalid player name")
+                        continue
+
+                self.card_effect(target)
+
+                # switch to next player
                 index = self.players.index(self.active_player)
                 if index == len(self.players) - 1:
                     index = 0
@@ -153,5 +169,32 @@ class Set:
                 self.round_num += 1
                 print("Round end, next player: ", self.active_player.name)
 
-    def play_round(self):
-        pass
+    def card_effect(self, op):
+        """
+        method where cards' effects implement
+
+        :param op:
+        :return:
+        """
+        card_id, target_name, target_val = op
+        assert card_id in range(1, 9)
+
+        if card_id == 1:
+            index, target = self.find_player(target_name)
+            if target.hand_card.id == target_val:
+                print("Oops, bingo!")
+                self.players.pop(index)
+            else:
+                print("Sadly, you got it wrong")
+
+    def find_player(self, player_name) -> list | None:
+        """
+
+        :param player_name:
+        :return: list of 2: index + player
+        """
+        for index, player in enumerate(self.players):
+            if player.name == player_name:
+                return [index, player]
+        return None
+
