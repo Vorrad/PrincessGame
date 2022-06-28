@@ -83,16 +83,20 @@ class Set:
             return None
         self.players = players
 
+        # Initial everyone's hand card and show all the players
+        print("Welcome to Princess Game!\nPlayers in the set:", end='')
+        for player in self.players:
+            print(player.name, end=' ')
+            player.draw_card(self.deck.pop())
+        print()
+
         if last_winner is None:  # First set in game
             self.active_player = self.players[random.randint(0, len(players) - 1)]
         else:
             self.active_player = last_winner
         assert type(self.active_player) == PlayerS
-        print("The set start at: ", self.active_player.name)
+        print("The set start at:", self.active_player.name)
 
-        # Initial everyone's hand card
-        for player in self.players:
-            player.draw_card(self.deck.pop())
 
         # Main loop
         while True:
