@@ -132,13 +132,16 @@ class Set:
                 print(self.active_player.hand_card.id, self.active_player.hand_card.name)
                 print(self.active_player.round_card.id, self.active_player.round_card.name)
                 print("Please choose a card to play: ", end="")
-                # TODO: here is a bug when input is invalid, it will jump over the player
-                try:
-                    # loop until player play it correctly
-                    while not self.active_player.play_card(int(input())):
+
+                # loop until player play it correctly
+                while True:
+                    card_id = input()
+                    if not card_id.isdigit():
+                        print("Invalid input, please type a number")
                         continue
-                except ValueError:
-                    print("Invalid input!")
+                    if not self.active_player.play_card(int(card_id)):
+                        continue
+                    break
 
                 # search current player in the player list
                 index = self.players.index(self.active_player)
@@ -147,6 +150,7 @@ class Set:
                 else:
                     index += 1
                 self.active_player = self.players[index]
+                self.round_num += 1
                 print("Round end, next player: ", self.active_player.name)
 
     def play_round(self):
