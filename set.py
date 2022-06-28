@@ -70,6 +70,9 @@ class PlayerS(Player):
 
 
 class Set:
+    """
+    Main part of game
+    """
     def __init__(self, suits=1):
         self.players = list()
         self.deck = Deck(suits)
@@ -82,7 +85,7 @@ class Set:
         start the set
 
         :param players: list of PlayerS, reduce during the set
-        :param last_winner: PlayerS, winner in last set
+        :param last_winner: str, winner in last set
         :return: None | winner's name
         """
         if len(players) < 2:
@@ -97,7 +100,7 @@ class Set:
         if last_winner is None:  # First set in game
             self.active_player = self.players[random.randint(0, len(players) - 1)]
         else:
-            self.active_player = last_winner
+            self.active_player = self.find_player(last_winner)[1]
         assert type(self.active_player) == PlayerS
         print("The set start at:", self.active_player.name)
 
@@ -216,6 +219,5 @@ class Set:
         print("Current players: ", end='')
         for player in self.players:
             print(player.name, end=' ')
-            player.draw_card(self.deck.pop())
         print()
 
