@@ -52,7 +52,7 @@ class Card:
     def guard_eff() -> list:
 
         print("You played a guard.\nPlease enter the player you want to guess:")
-        player = input()
+        player = input().strip()
         print("Please enter the card id you want to guess:")
         # loop until player play it correctly
         while True:
