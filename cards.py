@@ -65,7 +65,7 @@ class Card:
                 print("Invalid card id, please choose a number from 2 to 8: ", end='')
                 continue
             break
-        return [player, val]
+        return [1, player, val]
 
     @staticmethod
     def priest_eff():
