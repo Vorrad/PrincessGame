@@ -48,6 +48,7 @@ class PlayerS(Player):
 
         if self.round_card.id == card_id:
             op = self.round_card.effect()
+            # TODO: bug: if op is invalid, round card should not be cleared
             self.round_card = Card(0)
             return op
 
@@ -146,9 +147,6 @@ class Set:
                     if not card_id.isdigit():
                         print("Invalid input, please type a number")
                         continue
-                    break
-
-                while True:             # Check target
                     target = self.active_player.play_card(int(card_id))
                     if not target:
                         continue
@@ -160,6 +158,7 @@ class Set:
                     if not self.find_player(target_name):
                         print("Invalid player name")
                         continue
+                    break
 
                 self.card_effect(target)
 
