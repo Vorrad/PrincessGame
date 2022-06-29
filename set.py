@@ -188,7 +188,7 @@ class Set(object):
                 print("Round end, next player: " + self.active_player.name)
 
     def card_effect(self, op):
-        """method where cards' effects implement
+        """ method where cards' effects implement, will not check target_name's validity
 
         :param op: tuple of paras, card_id + target_name + target_val
         :return:
@@ -204,6 +204,11 @@ class Set(object):
                 self.show_players()
             else:
                 print("Sadly, you got it wrong")
+
+        if card_id == 2:
+            target = self.find_player(target_name)[1]
+            print("Player {}'s card in hand is: {} {}".format(target_name, target.hand_card.id, target.hand_card.name))
+
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple

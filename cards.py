@@ -71,8 +71,11 @@ class Card:
 
     @staticmethod
     def priest_eff():
-        print("I'm a priest")
-        return [2, BLANK_VAL, BLANK_VAL]
+
+        print("You played a priest.\nPlease enter the player you want to peek:")
+        player = input().strip()
+
+        return [2, player, BLANK_VAL]
 
     @staticmethod
     def baron_eff():
