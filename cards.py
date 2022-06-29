@@ -87,7 +87,9 @@ class Card:
 
     @staticmethod
     def handmaid_eff() -> tuple:
-        print("I'm a handmaid")
+
+        print("You played a Handmaid.\nYou will be safe until your next round")
+
         return 4, BLANK_VAL, BLANK_VAL
 
     @staticmethod

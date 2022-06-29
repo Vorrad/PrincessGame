@@ -196,6 +196,12 @@ class Set(object):
                         print("Invalid player name")
                         continue
 
+                    # Check if target is protected
+                    if self.find_player(target[1])[1].stat == PLAYER_STAT[1]:
+                        print("{} is protected by handmaid, choose another target"
+                              .format(self.find_player(target[1])[1].name))
+                        continue
+
                     break
 
                 # Use the card and make it effect, or drop the card
@@ -265,6 +271,9 @@ class Set(object):
             # draw challenge
             else:
                 print("Your card has the same rank with {}, nobody is out".format(target.name))
+
+        if card_id == 4:
+            self.active_player.set_stat(1)
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
