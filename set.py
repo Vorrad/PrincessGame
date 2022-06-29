@@ -19,12 +19,17 @@ from common import GameError
 class PlayerS(Player):
     """
     Player in a Set
+
+    Attributes:
+        hand_card: card player always keep
+        round_card: card player only has at his/her round
+        stat: player status, if is PLAYER_STAT[1] means cannot be chosen
     """
 
     def __init__(self, name=None):
         super(PlayerS, self).__init__(name)
-        self.hand_card = Card(0)  # The card player always keep
-        self.round_card = Card(0)  # The card player only has at his/her round
+        self.hand_card = Card(0)
+        self.round_card = Card(0)
         self.stat = PLAYER_STAT[0]
 
     def set_stat(self, stat_no: 0 | 1):
@@ -79,7 +84,6 @@ class Set(object):
     def __init__(self, suits=1):
         self.players = list()
         self.deck = Deck(suits)
-        # TODO: Implement class Round, replace this with a round object
         self.round_num = 0
         self.active_player = None
 
@@ -96,6 +100,9 @@ class Set(object):
         self.players = players
 
         # Initial everyone's hand card and show all the players
+        for player in self.players:
+            print(player.name, end=' ')
+            player.draw_card(self.deck.pop())
         print("Welcome to Princess Game!")
         self.show_players()
 
@@ -208,7 +215,6 @@ class Set(object):
         if card_id == 2:
             target = self.find_player(target_name)[1]
             print("Player {}'s card in hand is: {} {}".format(target_name, target.hand_card.id, target.hand_card.name))
-
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
