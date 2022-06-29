@@ -237,6 +237,35 @@ class Set(object):
             target = self.find_player(target_name)[1]
             print("Player {}'s hand is: {} {}".format(target_name, target.hand_card.id, target.hand_card.name))
 
+        if card_id == 3:
+            index, target = self.find_player(target_name)
+            target_id = target.hand_card.id
+            my_id = self.active_player.hand_card.id
+
+            # win challenge
+            if my_id > target_id:
+                print("Your card has higher rank, {} is out!".format(target.name))
+                self.players.pop(index)
+                self.show_players()
+
+            # lose challenge
+            elif my_id < target_id:
+                print("{} card has higher rank, you are out!".format(target.name))
+                index = self.find_player(self.active_player.name)[0]
+
+                # pop active_player, move active_player to former one before next round
+                if index == 0:
+                    self.active_player = self.players[-1]
+                else:
+                    self.active_player = self.players[index - 1]
+
+                self.players.pop(index)
+                self.show_players()
+
+            # draw challenge
+            else:
+                print("Your card has the same rank with {}, nobody is out".format(target.name))
+
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
 

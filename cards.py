@@ -53,7 +53,7 @@ class Card:
     @staticmethod
     def guard_eff() -> tuple:
 
-        print("You played a guard.\nPlease enter the player you want to guess:")
+        print("You played a Guard.\nPlease enter the player you want to guess:")
         player = input().strip()
         print("Please enter the card id you want to guess:")
         # loop until player play it correctly
@@ -70,42 +70,45 @@ class Card:
         return 1, player, val
 
     @staticmethod
-    def priest_eff():
+    def priest_eff() -> tuple:
 
-        print("You played a priest.\nPlease enter the player you want to peek:")
+        print("You played a Priest.\nPlease enter the player you want to peek:")
         player = input().strip()
 
-        return [2, player, BLANK_VAL]
+        return 2, player, BLANK_VAL
 
     @staticmethod
-    def baron_eff():
-        print("I'm a baron")
-        return [3, BLANK_VAL, BLANK_VAL]
+    def baron_eff() -> tuple:
+
+        print("You played a Baron.\nPlease enter the player you want to challenge:")
+        player = input().strip()
+
+        return 3, player, BLANK_VAL
 
     @staticmethod
-    def handmaid_eff():
+    def handmaid_eff() -> tuple:
         print("I'm a handmaid")
-        return [4, BLANK_VAL, BLANK_VAL]
+        return 4, BLANK_VAL, BLANK_VAL
 
     @staticmethod
-    def prince_eff():
+    def prince_eff() -> tuple:
         print("I'm a prince")
-        return [5, BLANK_VAL, BLANK_VAL]
+        return 5, BLANK_VAL, BLANK_VAL
 
     @staticmethod
-    def king_eff():
+    def king_eff() -> tuple:
         print("I'm a king")
-        return [6, BLANK_VAL, BLANK_VAL]
+        return 6, BLANK_VAL, BLANK_VAL
 
     @staticmethod
-    def countess_eff():
+    def countess_eff() -> tuple:
         print("I'm a countess")
-        return [7, BLANK_VAL, BLANK_VAL]
+        return 7, BLANK_VAL, BLANK_VAL
 
     @staticmethod
-    def princess_eff():
+    def princess_eff() -> tuple:
         print("I'm a princess")
-        return [8, BLANK_VAL, BLANK_VAL]
+        return 8, BLANK_VAL, BLANK_VAL
 
 
 class Deck:
