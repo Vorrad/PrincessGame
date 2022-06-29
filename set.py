@@ -63,6 +63,9 @@ class PlayerS(Player):
             print("You don't have this card, please choose a card you have")
             return []
 
+    def show_card_id(self):
+        return self.hand_card.id, self.round_card.id
+
     def drop_card(self, card_id):
         if self.round_card.id == card_id:
             self.round_card = Card(0)
@@ -157,11 +160,26 @@ class Set(object):
                 # loop until player play it correctly
                 target = list()
                 while True:             # Check card id input
-                    print("Please choose a card to play: ", end="")
-                    card_id = input()
+                    print("Please choose a card to play (enter 0 to discard a card): ", end="")
+                    card_id = input().strip()
                     if not card_id.isdigit():
                         print("Invalid input, please type a number")
                         continue
+
+                    # drop the card
+                    if int(card_id) == 0:
+                        print("Please choose a card:")
+                        drop_id = input().strip()
+                        if not drop_id.isdigit():
+                            print("Not a number!")
+                            continue
+                        drop_id = int(drop_id)
+                        if drop_id not in self.active_player.show_card_id():
+                            print("You don't have this card!")
+                            continue
+                        target = (0, BLANK_VAL, drop_id)
+                        break
+
                     target = self.active_player.play_card(int(card_id))
                     if not target:
                         continue
@@ -180,9 +198,12 @@ class Set(object):
 
                     break
 
-                # Use the card and make it effect
-                self.active_player.drop_card(target[0])
-                self.card_effect(target)
+                # Use the card and make it effect, or drop the card
+                if target[0] == 0:
+                    self.active_player.drop_card(target[2])
+                else:
+                    self.active_player.drop_card(target[0])
+                    self.card_effect(target)
 
                 # switch to next player
                 index = self.players.index(self.active_player)
@@ -214,7 +235,7 @@ class Set(object):
 
         if card_id == 2:
             target = self.find_player(target_name)[1]
-            print("Player {}'s card in hand is: {} {}".format(target_name, target.hand_card.id, target.hand_card.name))
+            print("Player {}'s hand is: {} {}".format(target_name, target.hand_card.id, target.hand_card.name))
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
@@ -232,4 +253,9 @@ class Set(object):
         for player in self.players:
             print(player.name, end=' ')
         print()
+
+    @staticmethod
+    def target_protected(name):
+        assert type(name) == str
+        print("Your target {} is protected by handmaid please choose another target".format(name))
 
