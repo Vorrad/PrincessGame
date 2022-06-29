@@ -8,7 +8,6 @@ It contains following properties
     3. current round
 """
 import random
-from typing import Any
 
 from cards import Deck, Card
 from player_list import Player
@@ -41,7 +40,7 @@ class PlayerS(Player):
         else:
             self.round_card = card
 
-    def play_card(self, card_id: int) -> list:
+    def play_card(self, card_id: int) -> tuple:
         """unnecessary object filled with BLANK_VAL
 
         :param card_id: id of card to play
@@ -49,7 +48,7 @@ class PlayerS(Player):
         """
         if card_id not in range(1, 9):
             print("Card id invalid, please choose a number from 1 to 8")
-            return []
+            return ()
 
         if self.round_card.id == card_id:
             op = self.round_card.effect()
@@ -61,7 +60,7 @@ class PlayerS(Player):
 
         else:
             print("You don't have this card, please choose a card you have")
-            return []
+            return ()
 
     def show_card_id(self):
         return self.hand_card.id, self.round_card.id
@@ -258,16 +257,7 @@ class Set(object):
             # lose challenge
             elif my_id < target_id:
                 print("{} card has higher rank, you are out!".format(target.name))
-                index = self.find_player(self.active_player.name)[0]
-
-                # pop active_player, move active_player to former one before next round
-                if index == 0:
-                    self.active_player = self.players[-1]
-                else:
-                    self.active_player = self.players[index - 1]
-
-                self.players.pop(index)
-                self.show_players()
+                self.kill_active_player()
 
             # draw challenge
             else:
@@ -295,7 +285,8 @@ class Set(object):
         if card_id == 7:
             pass
 
-        
+        if card_id == 8:
+            self.kill_active_player()
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
@@ -314,8 +305,19 @@ class Set(object):
             print(player.name, end=' ')
         print()
 
+    def kill_active_player(self):
+        """ used when Baron or Princess kill the player himself/herself
+        """
+        index = self.find_player(self.active_player.name)[0]
+        if index == 0:
+            self.active_player = self.players[-1]
+        else:
+            self.active_player = self.players[index - 1]
+
+        self.players.pop(index)
+        self.show_players()
+
     @staticmethod
     def target_protected(name):
         assert type(name) == str
         print("Your target {} is protected by handmaid please choose another target".format(name))
-

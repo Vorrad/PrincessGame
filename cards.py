@@ -114,7 +114,8 @@ class Card:
 
     @staticmethod
     def princess_eff() -> tuple:
-        print("I'm a princess")
+
+        print("You played a Princess.\nPrincess tore your love letter up, you are out!")
         return 8, BLANK_VAL, BLANK_VAL
 
 
