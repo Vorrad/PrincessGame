@@ -101,12 +101,15 @@ class Card:
 
     @staticmethod
     def king_eff() -> tuple:
-        print("I'm a king")
-        return 6, BLANK_VAL, BLANK_VAL
+
+        print("You played a King.\nPlease enter the player you want to trade with:")
+        player = input().strip()
+        return 6, player, BLANK_VAL
 
     @staticmethod
     def countess_eff() -> tuple:
-        print("I'm a countess")
+
+        print("You played a Countess.\nNo effect")
         return 7, BLANK_VAL, BLANK_VAL
 
     @staticmethod

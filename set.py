@@ -288,6 +288,15 @@ class Set(object):
                 target.hand_card = self.deck.pop()
                 print("Now, {}'s hand is {} {}".format(target.name, target.hand_card.id, target.hand_card.name))
 
+        if card_id == 6:
+            index, target = self.find_player(target_name)
+            self.active_player.hand_card, target.hand_card = target.hand_card, self.active_player.hand_card
+
+        if card_id == 7:
+            pass
+
+        
+
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
 
