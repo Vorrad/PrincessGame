@@ -94,8 +94,10 @@ class Card:
 
     @staticmethod
     def prince_eff() -> tuple:
-        print("I'm a prince")
-        return 5, BLANK_VAL, BLANK_VAL
+
+        print("You played a Prince.\nPlease enter the player you want to force discard:")
+        player = input().strip()
+        return 5, player, BLANK_VAL
 
     @staticmethod
     def king_eff() -> tuple:

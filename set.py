@@ -167,6 +167,7 @@ class Set(object):
                         continue
 
                     # drop the card
+                    # TODO: if one have 7, he/she cannot discard 5 or 6
                     if int(card_id) == 0:
                         print("Please choose a card:")
                         drop_id = input().strip()
@@ -274,6 +275,18 @@ class Set(object):
 
         if card_id == 4:
             self.active_player.set_stat(1)
+
+        if card_id == 5:
+            index, target = self.find_player(target_name)
+
+            if target.hand_card.id == 8:  # discard 8: out
+                print("{}'s hand is Princess, {} out!".format(target.name, target.name))
+                self.players.pop(index)
+                self.show_players()
+            else:
+                print("{} dropped card {} {}".format(target.name, target.hand_card.id, target.hand_card.name))
+                target.hand_card = self.deck.pop()
+                print("Now, {}'s hand is {} {}".format(target.name, target.hand_card.id, target.hand_card.name))
 
     def find_player(self, player_name) -> tuple | None:
         """ find a player in players by name, return a tuple
