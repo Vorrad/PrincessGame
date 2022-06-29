@@ -9,10 +9,12 @@ from common import GameError
 
 class Card:
     """
-    One card in game. Properties:
-    1. id
-    2. name
-    3. effect
+    One card in game.
+
+    Attributes:
+        id: id of card, shows card's name and effect
+        name: name of card, as a str
+        effect: effect when card is played, print hints and check the input
     """
 
     def __init__(self, card_id=0):
@@ -49,7 +51,7 @@ class Card:
             raise GameError("No such card id: " + str(card_id))
 
     @staticmethod
-    def guard_eff() -> list:
+    def guard_eff() -> tuple:
 
         print("You played a guard.\nPlease enter the player you want to guess:")
         player = input().strip()
@@ -65,7 +67,7 @@ class Card:
                 print("Invalid card id, please choose a number from 2 to 8: ", end='')
                 continue
             break
-        return [1, player, val]
+        return 1, player, val
 
     @staticmethod
     def priest_eff():
@@ -104,8 +106,10 @@ class Card:
 
 
 class Deck:
-    """
-    Deck for a set
+    """ Deck for a set
+
+    Attributes:
+        cards: list of cards in the deck
     """
 
     def __init__(self, suite_n=1):
@@ -133,5 +137,5 @@ class Deck:
     def pop(self) -> Card:
         return self.cards.pop()
 
-    def count(self):
+    def count(self) -> int:
         return len(self.cards)

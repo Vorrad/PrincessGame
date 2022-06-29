@@ -37,8 +37,7 @@ class PlayerS(Player):
             self.round_card = card
 
     def play_card(self, card_id: int) -> list:
-        """
-        unnecessary object filled with BLANK_VAL
+        """unnecessary object filled with BLANK_VAL
 
         :param card_id: id of card to play
         :return: a list with 3 objects: card id + target player + val, empty when operation foul,
@@ -69,9 +68,13 @@ class PlayerS(Player):
             raise GameError("in PlayerS.drop_card(): no such card!")
 
 
-class Set:
-    """
-    Main part of game
+class Set(object):
+    """Main part of game
+
+    Attributes:
+        active_player: player in current round, PlayerS class
+        players: a list of PlayerS describes players alive
+        deck: deck of cards on the table, defined in 'cards.py'
     """
     def __init__(self, suits=1):
         self.players = list()
@@ -81,8 +84,7 @@ class Set:
         self.active_player = None
 
     def start(self, players: list, last_winner=None) -> str | None:
-        """
-        start the set
+        """start the set
 
         :param players: list of PlayerS, reduce during the set
         :param last_winner: str, winner in last set
@@ -102,14 +104,14 @@ class Set:
         else:
             self.active_player = self.find_player(last_winner)[1]
         assert type(self.active_player) == PlayerS
-        print("The set start at:", self.active_player.name)
+        print("The set start at:" + self.active_player.name)
 
         # Main loop
         while True:
 
             # Only one alive
             if len(self.players) <= 1:
-                print("Game over, winner is ", self.players[0].name)
+                print("Game over, winner is " + self.players[0].name)
                 return self.players[0].name
 
             # No more card in the deck
@@ -129,7 +131,7 @@ class Set:
                     print("Draw game, no winner")
                     return None
                 else:
-                    print("Game over, winner is ", top_player[0].name)
+                    print("Game over, winner is " + top_player[0].name)
                     return top_player[0].name
 
             # Game continue
@@ -183,13 +185,12 @@ class Set:
                     index += 1
                 self.active_player = self.players[index]
                 self.round_num += 1
-                print("Round end, next player: ", self.active_player.name)
+                print("Round end, next player: " + self.active_player.name)
 
     def card_effect(self, op):
-        """
-        method where cards' effects implement
+        """method where cards' effects implement
 
-        :param op:
+        :param op: tuple of paras, card_id + target_name + target_val
         :return:
         """
         card_id, target_name, target_val = op
@@ -198,21 +199,21 @@ class Set:
         if card_id == 1:
             index, target = self.find_player(target_name)
             if target.hand_card.id == target_val:
-                print("Oops, bingo! " + target_name + " is out now!")
+                print("Oops, bingo! {} is out now!".format(target_name))
                 self.players.pop(index)
                 self.show_players()
             else:
                 print("Sadly, you got it wrong")
 
-    def find_player(self, player_name) -> list | None:
-        """
+    def find_player(self, player_name) -> tuple | None:
+        """ find a player in players by name, return a tuple
 
-        :param player_name:
-        :return: list of 2: index + player
+        :param player_name: str of player
+        :return: index + player
         """
         for index, player in enumerate(self.players):
             if player.name == player_name:
-                return [index, player]
+                return index, player
         return None
 
     def show_players(self):

@@ -5,13 +5,13 @@ Other module can invoke them as base class.
 import random
 
 from common import DEFAULT_NAME_LIST
-from common import GameError
 
 
-class Player:
-    """
-    properties:
-        1. name (unique)
+class Player(object):
+    """ Base class of player
+
+    Attributes:
+        name: str, unique key of a player
     """
     def __init__(self, name=None):
         # May occur repetition
